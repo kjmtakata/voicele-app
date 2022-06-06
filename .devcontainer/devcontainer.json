@@ -1,0 +1,11 @@
+{
+  "name": "Node.js",
+  "image": "node:16-bullseye",
+  "forwardPorts": [3000],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.rulers": [80]
+  },
+  "extensions": ["esbenp.prettier-vscode"]
+}

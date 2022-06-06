@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { Autocomplete, TextField, Button } from "@mui/material";
+import { useEffect, useState, Fragment } from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const today = new Date();
+  const [url, setUrl] = useState(null);
+  const [name, setName] = useState(null);
+  const [input, setInput] = useState(null);
+  const [options, setOptions] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      `https://voicele-api.herokuapp.com/answers/${today
+        .toISOString()
+        .slice(0, 10)}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUrl(data.url);
+        setName(data.name);
+      });
+
+    fetch("https://voicele-api.herokuapp.com/options")
+      .then((response) => response.json())
+      .then((data) => {
+        setOptions(data);
+      });
+  }, []);
+
+  const submitInput = (event) => {
+    event.preventDefault();
+    if (input.toLowerCase() === name.toLowerCase()) {
+      window.alert("correct!");
+    } else {
+      window.alert("wrong!");
+    }
+  };
+
+  if (url && name) {
+    return (
+      <div>
+        <audio controls>
+          <source src={url} />
+        </audio>
+        <form onSubmit={submitInput}>
+          <Autocomplete
+            options={options}
+            onChange={(_, value) => setInput(value)}
+            renderInput={(params) => (
+              <TextField {...params} label="Guess the Celebrity" />
+            )}
+          />
+          <Button type="submit" fullWidth={true}>
+            Submit
+          </Button>
+        </form>
+      </div>
+    );
+  } else {
+    return <div>Loading...</div>;
+  }
 }
 
 export default App;
