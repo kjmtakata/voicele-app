@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Alert,
+  Snackbar,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
@@ -45,6 +46,15 @@ function App() {
   if (url && name) {
     return (
       <Container component="main" maxWidth="xs">
+        <Snackbar
+          open={guesses.length >= 6}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert severity="info" sx={{ width: "100%" }}>
+            {name}
+          </Alert>
+        </Snackbar>
+
         <audio controls style={{ width: "100%" }}>
           <source src={url} />
         </audio>
