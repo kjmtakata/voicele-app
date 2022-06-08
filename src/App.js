@@ -24,7 +24,12 @@ function App() {
 
   useEffect(() => {
     const storedState = JSON.parse(localStorage.getItem(dateString));
-    if (storedState.url && storedState.name && storedState.guesses) {
+    if (
+      storedState &&
+      storedState.url &&
+      storedState.name &&
+      storedState.guesses
+    ) {
       setUrl(() => storedState.url);
       setName(() => storedState.name);
       setGuesses(() => storedState.guesses);
